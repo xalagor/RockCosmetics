@@ -165,7 +165,20 @@ void URockMutablePawnComponent_CharacterParts::RemoveCharacterPartFromMutableOpt
 
 void URockMutablePawnComponent_CharacterParts::ShowCharacterInformation(bool bFullInfo, bool ShowMaterialInfo)
 {
-	UCustomizableObjectSystem::GetInstance()->LogShowData(bFullInfo, ShowMaterialInfo);
+	UCustomizableObjectSystem* System = UCustomizableObjectSystem::GetInstance();
+	if (!System)
+	{
+		UE_LOG(LogRockCosmetic, Warning, TEXT("CustomizableObjectSystem is not available"));
+		return;
+	}
+
+	UE_LOG(LogRockCosmetic, Log, TEXT("=== Mutable System Info ==="));
+	UE_LOG(LogRockCosmetic, Log, TEXT("  Total Instances: %d"), System->GetTotalInstances());
+	UE_LOG(LogRockCosmetic, Log, TEXT("  Built Instances: %d"), System->GetNumInstances());
+	UE_LOG(LogRockCosmetic, Log, TEXT("  Pending Instances: %d"), System->GetNumPendingInstances());
+	UE_LOG(LogRockCosmetic, Log, TEXT("  Texture Memory Used: %lld bytes"), System->GetTextureMemoryUsed());
+	UE_LOG(LogRockCosmetic, Log, TEXT("  Average Build Time: %d ms"), System->GetAverageBuildTime());
+	UE_LOG(LogRockCosmetic, Log, TEXT("  Plugin Version: %s"), *System->GetPluginVersion());
 }
 
 
